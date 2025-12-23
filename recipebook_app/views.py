@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from recipebook_app import Recipe
+from recipebook_app.models import Recipe
+
 # Create your views here.
 
 def recipe_list(request): 
