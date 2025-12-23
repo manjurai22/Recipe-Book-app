@@ -22,4 +22,18 @@ def add_recipe(request):
 
     return render(request, "add_recipe.html", {"form": form})
 
+def edit_recipe(request, id):
+    recipe = Recipe.objects.get(id=id) 
+    if request.method == "POST":
+        form = RecipeForm(request.POST, instance=recipe)
+        if form.is_valid():
+            form.save()
+            return redirect("recipe_list")
+    else:
+        form = RecipeForm(instance=recipe)
+    return render(request, "recipebook_app/edit_recipe.html", {"form": form})
 
+def delete_recipe(request, id):
+    recipe = Recipe.objects.get(id=id)  # simple fetch
+    recipe.delete()  # delete immediately
+    return redirect("recipe_list")

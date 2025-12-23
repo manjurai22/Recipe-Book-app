@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Recipe List{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 text-center">🍲 Recipe List</h1>
+
+<div class="row">
+    {% if recipes %}
+        {% for recipe in recipes %}
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.name }}</h5>
+                    <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+                    <a href="% url 'edit_recipe' recipe.id %" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="% url 'delete_recipe' recipe.id %" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-center">No recipes found.</p>
+    {% endif %}
+</div>
+
+<div class="text-center mt-4">
+    <a href="{% url 'add_recipe' %}" class="btn btn-lg btn-primary">Add New Recipe</a>
+</div>
+{% endblock content %}

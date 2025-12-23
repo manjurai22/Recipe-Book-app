@@ -1,0 +1,18 @@
+{% extends "recipebook_app/base.html" %}
+
+{% block title %}Delete Recipe{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <div class="card shadow p-4 mx-auto" style="max-width: 500px;">
+        <h4>Are you sure you want to delete:</h4>
+        <p class="fw-bold">{{ recipe.name }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'recipe_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
