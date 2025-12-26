@@ -3,28 +3,39 @@
 {% block title %}Recipe List{% endblock %}
 
 {% block content %}
-<h1 class="mb-4 text-center">🍲 Recipe List</h1>
+<h1 class="mb-4 text-center"> Recipe List</h1>
 
-<div class="row">
-    {% if recipes %}
+{% if recipes %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Ingredients</th>
+            <th>Steps</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for recipe in recipes %}
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">{{ recipe.name }}</h5>
-                    <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
-                    <a href="% url 'edit_recipe' recipe.id %" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="% url 'delete_recipe' recipe.id %" class="btn btn-sm btn-danger">Delete</a>
-                </div>
-            </div>
-        </div>
+        <tr>
+            <td>{{ recipe.name }}</td>
+            <td>{{ recipe.category }}</td>
+            <td>{{ recipe.ingredients|truncatewords:10 }}</td>
+            <td>{{ recipe.steps|truncatewords:10 }}</td>
+            <td>
+                <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
         {% endfor %}
-    {% else %}
-        <p class="text-center">No recipes found.</p>
-    {% endif %}
-</div>
+    </tbody>
+</table>
+{% else %}
+<p class="text-center">No recipes found.</p>
+{% endif %}
 
 <div class="text-center mt-4">
     <a href="{% url 'add_recipe' %}" class="btn btn-lg btn-primary">Add New Recipe</a>
 </div>
-{% endblock content %}
+{% endblock %}

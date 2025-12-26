@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from recipebook_app.models import Recipe
-
+from recipebook_app.forms import RecipeForm
 # Create your views here.
 
 def recipe_list(request): 
@@ -16,7 +16,7 @@ def add_recipe(request):
         form = RecipeForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("recipe_list")  # Redirect to the recipe list page after adding
+            return redirect("recipe_list") 
     else:
         form = RecipeForm()  # Empty form for GET request
 
@@ -31,9 +31,25 @@ def edit_recipe(request, id):
             return redirect("recipe_list")
     else:
         form = RecipeForm(instance=recipe)
-    return render(request, "recipebook_app/edit_recipe.html", {"form": form})
+    return render(request, "edit_recipe.html", {"form": form,"recipe":recipe})
 
 def delete_recipe(request, id):
-    recipe = Recipe.objects.get(id=id)  # simple fetch
-    recipe.delete()  # delete immediately
+    recipe = Recipe.objects.get(id=id)  
+    recipe.delete()  
     return redirect("recipe_list")
+
+def search_recipe(request):
+    query = request.GET.get('q')
+
+    recipes = []
+    if query:
+        recipes = Recipe.objects.filter(
+            name__icontains=query
+        ) | Recipe.objects.filter(
+            category__icontains=query
+        )
+
+    return render(request, 'search_recipe.html', {
+        'recipes': recipes,
+        'query': query
+    })
