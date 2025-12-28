@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 text-center">Search Results for "{{ query }}"</h1>
+
+{% if recipes %}
+    <div class="row">
+        {% for recipe in recipes %}
+        <div class="col-md-6 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ recipe.category }}</h6>
+                    <p><strong>Ingredients:</strong> {{ recipe.ingredients|truncatewords:15 }}</p>
+                    <p><strong>Steps:</strong> {{ recipe.steps|truncatewords:15 }}</p>
+                    <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-center">No recipes found for "{{ query }}".</p>
+{% endif %}
+{% endblock %}

@@ -40,8 +40,8 @@ def delete_recipe(request, id):
 
 def search_recipe(request):
     query = request.GET.get('q')
+    recipes = Recipe.objects.none()
 
-    recipes = []
     if query:
         recipes = Recipe.objects.filter(
             name__icontains=query
