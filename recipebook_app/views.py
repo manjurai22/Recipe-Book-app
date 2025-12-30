@@ -18,7 +18,7 @@ def add_recipe(request):
             form.save()
             return redirect("recipe_list") 
     else:
-        form = RecipeForm()  # Empty form for GET request
+        form = RecipeForm()
 
     return render(request, "add_recipe.html", {"form": form})
 
